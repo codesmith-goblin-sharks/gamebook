@@ -1,0 +1,72 @@
+.cardContext {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+flex: 1 0 0;
+align-self: stretch;
+border-radius: 12px;
+border: 1px solid var(--M3-sys-light-outline-variant, #CAC4D0);
+}
+
+.cardTitle {
+ width: 328px;
+color: var(--M3-sys-light-on-surface, #1D1B20);
+/* M3/body/large */
+font-family: Roboto;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px; /* 150% */
+letter-spacing: 0.5px;
+}
+
+.cardSubTitle {
+width: 328px;
+color: var(--M3-sys-light-on-surface-variant, #49454F);
+
+/* M3/body/medium */
+font-family: Roboto;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 20px; /* 142.857% */
+letter-spacing: 0.25px;
+}
+
+.cardSummary {
+align-self: stretch;
+color: var(--M3-sys-light-on-surface-variant, #49454F);
+
+/* M3/body/medium */
+font-family: Roboto;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 20px; /* 142.857% */
+letter-spacing: 0.25px;
+}
+
+.cardLike {
+display: flex;
+height: 40px;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+gap: 8px;
+border-radius: 100px;
+background: #EEBBC3;
+}
+
+.likeBox {
+display: flex;
+justify-content: flex-end;
+align-items: flex-start;
+gap: 8px;
+align-self: stretch;
+}
+
+.cardImage {
+width: 302px;
+height: 289px;
+}
