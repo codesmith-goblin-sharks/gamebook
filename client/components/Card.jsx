@@ -6,7 +6,7 @@ const Card = ({ game, onLike }) => {
   return (
     <div className='card'>
       <div className='card-image'>
-        <img src={game.image} alt={game.title} className='game-cover' />
+        <img src={game.image} alt={game.title} style={{ width: '100%', height: '100%', objectFit: 'cover', }}/>
       </div>
       <div className='card-content'>
         <h2 className='card-title'>{game.title}</h2>
