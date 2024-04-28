@@ -1,11 +1,11 @@
-import React from 'react';
+// import React from 'react';
 
-import '../stylesheets/Header.scss'
+// import '../stylesheets/Header.scss'
 
-const Header = () => (
-  <header>
-    <h1>GameBook</h1>
-  </header>
-);
+// const Header = () => (
+//   <header>
+//     <h1>GameBook</h1>
+//   </header>
+// );
 
-export default Header;
+// export default Header;
