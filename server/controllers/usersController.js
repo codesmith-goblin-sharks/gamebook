@@ -1,4 +1,6 @@
 const Users = require('../models/usersModel');
+const ApiGames = require('../models/gamesModel');
+
 require('dotenv').config();
 const bcrypt = require('bcryptjs');
 
@@ -8,18 +10,24 @@ usersController = {};
 usersController.likeGame = async (req, res, next) => {
   try {
     // get game data from frontend and store to likedGames
-    // req.body should be something like { user: Number, gameName: "game name" }
+    // req.body should be something like { username: String, gameName: "game name" }
     const gameName = req.body.gameName;
     const username = req.body.username;
     // find game in apiGames collection
-    const game = await apiGames.findOne({
+    const game = await ApiGames.findOne({
       name: gameName,
     });
     // check if game has been already liked by user
     const userData = await Users.findOne({ username: username });
     // if it hasn't been liked add to likedGames under that user
     if (!userData.likedGames.some(likedGame => likedGame.id === game.id)) {
+      await Users.updateOne(
+        { username: username },
+        { $pull: { likedGames: { id: game.id } } }
+      );
       userData.likedGames.push(game);
+      console.log('user', userData);
+      console.log('game', game);
       res.locals.gameLiked = 'Game liked!';
     } else {
       res.locals.gameLiked = 'Game already liked!';
@@ -38,7 +46,7 @@ usersController.unlikeGame = async (req, res, next) => {
   try {
     const gameName = req.body.gameName;
     const username = req.body.username;
-    const game = await apiGames.findOne({
+    const game = await ApiGames.findOne({
       name: gameName,
     });
     await Users.updateOne(
@@ -113,7 +121,6 @@ usersController.verifyUser = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    s;
     next({
       message: error,
     });

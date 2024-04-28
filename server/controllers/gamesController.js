@@ -1,4 +1,5 @@
 const ApiGames = require('../models/gamesModel');
+
 require('dotenv').config();
 
 const gamesController = {};
