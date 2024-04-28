@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 
-import './stylesheets/styles.css'
+import './stylesheets/styles.scss'
 
 import LoginPage from './pages/Login.jsx';
 import SignupPage from './pages/Signup.jsx';
@@ -33,6 +32,6 @@ const App = () => {
   );
 };
 
-const root = document.createRoot(document.getElementById('root'));
+const root = createRoot(document.getElementById('root'));
 root.render(<App />);
 export default App;

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Header from '../components/Header.jsx';
 
 const SignupPage = () => {
   const [username, setUsername] = useState('');
