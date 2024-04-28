@@ -5,7 +5,8 @@ const app = express();
 const PORT = 3000;
 const cors = require('cors');
 require('dotenv').config();
-const gamesController = require('./gamesController');
+const gamesController = require('./controllers/gamesController');
+const usersController = require('./controllers/usersController');
 
 URI = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PWD}@${process.env.MONGODB_CLUSTER_URL}games`;
 
@@ -19,10 +20,42 @@ db.once('connected', () => {
 app.use(express.json());
 app.use(cors());
 
-// routes go here
-app.post('/apisave', gamesController.apisave, (req, res) => {
-  console.log('finished');
+// route for handling saving data from api to db
+app.post('/apisave', gamesController.apiSave, (req, res) => {
+  console.log('finished adding games to database');
   res.sendStatus(200);
+});
+
+// route for handling post request from frontend to filter games
+app.post('/games', gamesController.getGames, (req, res) => {
+  // returns array of objects of games
+  res.status(200).json(res.locals.games);
+});
+
+// route for handling post request for liked games
+app.post('/likegame', usersController.likeGame, (req, res) => {
+  res.status(200).json(res.locals.gameLiked);
+});
+
+app.get('/likegame', usersController.loadLikes, (req, res) => {
+  // returns object of objects of games
+  res.status(200).json(res.locals.likedGames);
+});
+
+app.patch('/likegame', usersController.unlikeGame, (req, res) => {
+  res.status(200).json(res.locals.likedGames);
+});
+
+app.post('/createuser', usersController.createUser, (req, res) => {
+  // if res.locals.user has value then user created account
+  // if it has no value then username already exists
+  res.status(200).json(res.locals.user);
+});
+
+app.post('/login', usersController.verifyUser, (req, res) => {
+  // if res.locals.user has value then user logged in
+  // if it has no value then user failed to log in
+  res.status(200).json(res.locals.user);
 });
 
 // catch all error

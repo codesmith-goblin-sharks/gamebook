@@ -1,5 +1,6 @@
-const { apiGames, likedGames } = require('./model');
+const ApiGames = require('../models/gamesModel');
 require('dotenv').config();
+const bcrypt = require('bcryptjs');
 
 const gamesController = {};
 
@@ -8,7 +9,7 @@ const clientId = process.env.CLIENT_ID;
 const baseUrl = 'https://api.igdb.com/v4/';
 
 // api request
-gamesController.apisave = async (req, res, next) => {
+gamesController.apiSave = async (req, res, next) => {
   /*
   when the INITIAL request is made to API (using postman for now),
   take the data received and store into db apigames collection
@@ -42,7 +43,7 @@ gamesController.apisave = async (req, res, next) => {
 
     // loop through data because it's an array
     for (const game of req.body) {
-      const games = await apiGames.findOne({ id: game.id });
+      const games = await ApiGames.findOne({ id: game.id });
       if (games) continue;
       // making individual fetch requests calling fetchIdName
       if (!game.cover || !game.similar_games || !game.platforms || !game.genres)
@@ -67,13 +68,33 @@ gamesController.apisave = async (req, res, next) => {
       };
 
       if (!games) {
-        await apiGames.create(gameData);
+        await ApiGames.create(gameData);
       }
     }
     next();
   } catch (error) {
+    console.log(error);
     next({
-      error: error.message,
+      message: error,
+    });
+  }
+};
+
+// get data from db and send to frontend
+gamesController.getGames = async (req, res, next) => {
+  try {
+    // find games from db depending on filters sent from frontend
+    // req.body should be something like { platforms: [platform1, platform2], genres: [genre1, genre2] }
+    const { platforms, genres } = req.body;
+    res.locals.games = await ApiGames.find({
+      platforms: { $in: platforms },
+      genres: { $in: genres },
+    });
+    next();
+  } catch (error) {
+    console.log(error);
+    next({
+      message: error,
     });
   }
 };
