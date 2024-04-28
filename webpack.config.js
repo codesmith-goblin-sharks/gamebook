@@ -1,46 +1,93 @@
+// const path = require('path');
+// const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+// module.exports = {
+//     mode: process.env.NODE_ENV || 'development',
+//     entry: './client/App.jsx',
+//     output: {
+//         filename: 'bundle.js',
+//         path: path.resolve(__dirname, 'build')
+//     },
+//     plugins: [
+//         new HtmlWebpackPlugin({
+//             template: path.join(__dirname, 'index.html'),
+//         }),
+//     ],
+//     module: {
+//         rules: [
+//             {
+//                 test: /\.jsx?$/,
+//                 exclude: /node_modules/,
+//                 use: {
+//                     loader: 'babel-loader',
+//                     options: {
+//                         presets: ['@babel/preset-env', '@babel/preset-react'],
+//                     },
+//                 },
+//             }, 
+//             {
+//                 test: /\.s?css$/,
+//                 exclude: /node_modules/,
+//                 use: ['style-loader', 'css-loader', 'sass-loader'],
+//             },
+//         ],
+//     },
+//     devServer: {
+//         static: {
+//             directory: path.resolve(__dirname, 'build'),
+//             publicPath: '/',
+//         },
+//         proxy: [{
+//             context: ['/api'],
+//             target: 'http://localhost:3000',
+//             changeOrigin: true,
+//         }],
+//     },
+// }
+
+
+
+
+
+
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    mode: process.env.NODE_ENV || 'development',
-    entry: './client/App.jsx',
-    output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'build')
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: path.join(__dirname, 'index.html'),
-        }),
-    ],
-    module: {
-        rules: [
-            {
-                test: /\.jsx?$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env', '@babel/preset-react'],
-                    },
-                },
-            }, 
-            {
-                test: /\.s?css$/,
-                exclude: /node_modules/,
-                use: ['style-loader', 'css-loader', 'sass-loader'],
-            },
-        ],
-    },
-    devServer: {
-        static: {
-            directory: path.resolve(__dirname, 'build'),
-            publicPath: '/',
+  mode: 'development',
+  entry: './client/components/TestApp.jsx', // Point to the test component
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'build'),
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'index.html', // The HTML template to use
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+          },
         },
-        proxy: [{
-            context: ['/api'],
-            target: 'http://localhost:3000',
-            changeOrigin: true,
-        }],
+      },
+      {
+        test: /\.s?css$/,
+        exclude: /node_modules/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+    ],
+  },
+  devServer: {
+    static: {
+      directory: path.resolve(__dirname, 'build'), // Ensure this matches the output path
+      publicPath: '/',
     },
-}
+  },
+};

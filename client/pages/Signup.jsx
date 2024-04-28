@@ -6,6 +6,8 @@ const SignupPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const navigate = useNavigate();
+
   // Handler for submitting
   const handleSignup = async (e) => {
     e.preventDefault();

@@ -10,6 +10,7 @@ import MainPage from './pages/Main.jsx';
 
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 
+
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   return (
@@ -17,7 +18,7 @@ const App = () => {
       <Routes>
         <Route path='/login' element={<LoginPage setIsAuthenticated={setIsAuthenticated} />} />
         <Route path='/signup' element={<SignupPage />} />
-        <Route path='/' element ={<MainPage />} />
+//           <Route path='/main' element ={<MainPage />} /> {/*testing route for mainpage*/}
         <Route
           path='/home'
           element={
@@ -26,7 +27,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        {/* {<Route path='/' element={<Navigate replace to='/login' />} />} */}
+        <Route path='/' element={<Navigate replace to='/login' />} />
       </Routes>
     </BrowserRouter>
   );
