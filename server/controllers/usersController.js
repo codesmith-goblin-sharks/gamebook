@@ -1,4 +1,4 @@
-const Users = require('../models/gamesModel');
+const Users = require('../models/usersModel');
 require('dotenv').config();
 const bcrypt = require('bcryptjs');
 
@@ -83,6 +83,7 @@ usersController.createUser = async (req, res, next) => {
         password,
         likedGames: [],
       });
+      console.log(user);
       // if user is created successfully send username back to client
       res.locals.user = user.username;
     }
@@ -103,12 +104,16 @@ usersController.verifyUser = async (req, res, next) => {
       username: username,
     });
     if (userData) {
-      const match = bcrypt.compare(password, userData.password);
+      const match = await bcrypt.compare(password, userData.password);
       if (match) res.locals.user = userData.username;
+      next();
+    } else {
+      console.log('Username does not exist');
+      next();
     }
-    next();
   } catch (error) {
     console.log(error);
+    s;
     next({
       message: error,
     });

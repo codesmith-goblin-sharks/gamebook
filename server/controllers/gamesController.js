@@ -1,6 +1,5 @@
 const ApiGames = require('../models/gamesModel');
 require('dotenv').config();
-const bcrypt = require('bcryptjs');
 
 const gamesController = {};
 

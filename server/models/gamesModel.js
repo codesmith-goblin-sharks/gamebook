@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const gamesSchema = new Schema({
-  id: Number,
-  name: String,
+  id: { type: Number, required: true },
+  name: { type: String, required: true },
   cover: String,
   similar_games: Array,
   summary: String,
