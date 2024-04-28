@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../components/Header';
+import Header from '../components/Header.jsx';
 
-import '../stylesheets/Login.css';
+import '../stylesheets/Login.scss';
 
 const LoginPage = ({ setIsAuthenticated }) => {
   //State hooks for username and password

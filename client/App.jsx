@@ -4,11 +4,11 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import './stylesheets/styles.css'
 
-import LoginPage from './pages/login';
-import SignupPage from './pages/Signup';
-import MainPage from './pages/Main';
+import LoginPage from './pages/Login.jsx';
+import SignupPage from './pages/Signup.jsx';
+import MainPage from './pages/Main.jsx';
 
-import ProtectedRoute from './components/ProtectedRoute';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
