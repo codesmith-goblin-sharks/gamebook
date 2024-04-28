@@ -1,5 +1,7 @@
 import React from 'react';
 
+import '../stylesheets/Header.scss'
+
 const Header = () => (
   <header>
     <h1>GameBook</h1>
