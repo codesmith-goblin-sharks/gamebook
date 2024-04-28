@@ -107,10 +107,12 @@ usersController.createUser = async (req, res, next) => {
 usersController.verifyUser = async (req, res, next) => {
   try {
     const { username, password } = req.body;
+    console.log(req.body)
     // some password comaparing logic using bcrypt
     const userData = await Users.findOne({
       username: username,
     });
+    console.log('userdata', userData)
     if (userData) {
       const match = await bcrypt.compare(password, userData.password);
       if (match) res.locals.user = userData.username;
