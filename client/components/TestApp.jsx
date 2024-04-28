@@ -1,7 +1,8 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import TestCard from './TestCard.jsx';
-import '../styles.css'; 
+//import '../styles.css'; 
+import '../stylesheets/styles.scss'
 
 const TestApp = () => {
   return (

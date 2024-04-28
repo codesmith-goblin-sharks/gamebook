@@ -1,6 +1,6 @@
 import React from 'react';
 import CardList from './CardList.jsx'; 
-import '../styles.css'; 
+//import '../styles.css'; 
 
 
 const TestCard = () => {
