@@ -1,5 +1,6 @@
 import React from 'react'; 
-import Card from './Card'
+import Card from './Card.jsx'
+import '../styles.css'; 
 
 const CardList = ({ games }) => {
     return (

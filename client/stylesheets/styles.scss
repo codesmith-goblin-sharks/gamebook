@@ -1,16 +1,16 @@
-// main scss file
-@import 'variables';
-@import 'Login';
+// // main scss file
+// @import 'variables';
+// @import 'Login';
 
-// Removes html default padding
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%; 
-  width: 100%;
-  box-sizing: border-box;
-}
+// // Removes html default padding
+// html, body {
+//   margin: 0;
+//   padding: 0;
+//   height: 100%; 
+//   width: 100%;
+//   box-sizing: border-box;
+// }
 
-*, *::before, *::after {
-  box-sizing: inherit; // Inherits the box-sizing from the html and body
-}
+// *, *::before, *::after {
+//   box-sizing: inherit; // Inherits the box-sizing from the html and body
+// }
