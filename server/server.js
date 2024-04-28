@@ -21,6 +21,7 @@ app.use(cors());
 
 // routes go here
 app.post('/apisave', gamesController.apisave, (req, res) => {
+  console.log('finished');
   res.sendStatus(200);
 });
 
