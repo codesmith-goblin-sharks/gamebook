@@ -7,7 +7,7 @@ import GenreFilter from '../components/GenreFilter.jsx';
 
 import '../stylesheets/Main.scss';
 
-const Main = () => {
+const Main = ({ user, initialData }) => {
   //-----------------------game cards--------------------------------
   const mockGames = [
     {
@@ -44,6 +44,9 @@ const Main = () => {
     },
   ];
 
+  // fetching games from backend
+  const [games, setGames] = useState([initialData]);
+
   // Current page index, items per page, and page count
   //[Remember to replace mockGames to fetched data]
   const [currentPage, setCurrentPage] = useState(0);
@@ -59,11 +62,11 @@ const Main = () => {
 
   // Handlers for next and previous buttons
   const goToNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, pageCount - 1));
+    setCurrentPage(prevPage => Math.min(prevPage + 1, pageCount - 1));
   };
 
   const goToPreviousPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 0));
+    setCurrentPage(prevPage => Math.max(prevPage - 1, 0));
   };
 
   //-----------------------filters--------------------------------
@@ -71,12 +74,11 @@ const Main = () => {
     'PC (Microsoft Windows)',
     'Web browser',
     'Xbox 360',
-    //starting from here are all dummy variable since we didn't really get relevant data
     'Xbox One',
     'Xbox Series X|S',
     'PlayStation 5',
     'PlayStation 4',
-    'Switch',
+    'Nintendo Switch',
   ];
 
   const genre = [
@@ -84,38 +86,37 @@ const Main = () => {
     'Indie',
     'MOBA',
     'Adventure',
-    //starting from here are all dummy variable since we didn't really get relevant data
     'RPG',
     'Strategy',
+    'Fighting',
+    'Puzzle',
+    'Sport',
   ];
 
   const [activePFilter, setActivePFilter] = useState(platforms); // Platform filters
   const [activeGFilter, setActiveGFilter] = useState(genre); // Genre filters
 
-  const handlePFilterSelect = (selectedPlatform) => {
+  const handlePFilterSelect = selectedPlatform => {
     // Logic for set filter to be added
   };
 
-  const handleGFilterSelect = (selectedGenre) => {
+  const handleGFilterSelect = selectedGenre => {
     // Logic for set filter to be added
   };
 
   useEffect(() => {
     const fetchGames = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:3000/whatever branch LOL`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              platforms: activePFilter,
-              genres: activeGFilter,
-            }),
-          }
-        );
+        const response = await fetch('http://localhost:3000/games', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            platforms: activePFilter,
+            genres: activeGFilter,
+          }),
+        });
 
         if (!response.ok) {
           console.log('Backend data fetching issue with filter');
@@ -123,7 +124,7 @@ const Main = () => {
 
         const gamesData = await response.json();
         // Update with the new games data
-        // setGames(gamesData);
+        setGames(gamesData);
       } catch (error) {
         console.error('Error fetching the games:', error);
       }
@@ -133,17 +134,17 @@ const Main = () => {
   }, [activePFilter, activeGFilter]); // Fetch games when filters change
 
   return (
-    <div className='main'>
+    <div className="main">
       <Header />
-        <CardList games={mockGames} />
-      <div className='filters'>
-        <div className='platform-filter'>
+      <CardList games={mockGames} />
+      <div className="filters">
+        <div className="platform-filter">
           <PlatformFilter
             platforms={platforms}
             onFilterSelect={handlePFilterSelect}
           />
         </div>
-        <div className='genre-filter'>
+        <div className="genre-filter">
           <GenreFilter genre={genre} onFilterSelect={handleGFilterSelect} />
         </div>
       </div>
