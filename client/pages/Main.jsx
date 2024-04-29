@@ -169,7 +169,7 @@ const Main = () => {
       const data = await response.json();
       console.log(data); //delete after test
 
-      const updatedGames = currentGames.filter(game => game.id !== likeGame.id); //filter current games to remove liked game
+      const updatedGames = currentGames.filter(game => game.id !== likedGame.id); //filter current games to remove liked game
       const newGameResponse = await fetch('/games'); //fetch from game db?
       const newGame = await newGameResponse.json();
       updatedGames.push(newGame)
