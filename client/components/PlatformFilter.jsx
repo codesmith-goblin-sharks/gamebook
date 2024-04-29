@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import '../stylesheets/PlatformFilter.scss'
 
-const PlatformFilter = ({ platforms, onFilterSelect }) => {
+const PlatformFilter = ({ platforms, activePFilter, onFilterSelect }) => {
   return (
     <div className='filter-container'>
       {platforms.map((platform) => (
         <button
           key={platform}
           onClick={() => onFilterSelect(platform)}
-          className='filter-button'
+          className={`filter-button ${activePFilter.includes(platform) ? 'active' : ''}`}
         >
           {platform}
         </button>
