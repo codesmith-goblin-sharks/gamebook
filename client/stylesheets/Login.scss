@@ -1,0 +1,81 @@
+@import 'variables';
+@import url('https://fonts.googleapis.com/css2?family=Jersey+20&display=swap');
+
+.login {
+  background-color: pink;
+  height: 100vh; // full height of the viewport
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  form {
+    padding: 10px;
+    font-family: "Jersey 20", sans-serif;
+    width: 245px;
+
+    .error-message {
+        color: red;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .input-field {
+      margin-bottom: 20px;
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 20px;
+      }
+
+      input[type='text'], input[type='password'] {
+        background-color: #FBB6C1;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid $purpleblue;
+        border-radius: 8px;
+        &:focus {
+          background-color: white;
+        }
+      }
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+
+      button {
+        margin: 10px;
+        font-family: "Jersey 20", sans-serif;
+        font-size: 16px;
+        padding: 10px 20px;
+        color: $pink;
+        background-color: $purpleblue;
+        opacity: 90%;
+        border: none;
+        border-radius: 100px;
+        width: 100%;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: $purpleblue;
+          opacity: 100%;
+          cursor: pointer;
+        }
+      }
+
+      a { // Styles for the 'Sign Up' link
+        color: $purpleblue;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

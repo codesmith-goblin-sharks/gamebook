@@ -1,0 +1,62 @@
+@import 'variables';
+.card-list-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $purpleblue;
+
+  .pageturn-button-previous{
+    cursor: pointer;
+    user-select: none;
+    padding: 10px; 
+    opacity: 50%;
+
+    &:hover {
+      opacity: 100%;
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    &.previous {
+      margin-right: 20px;
+    }
+
+    &.next {
+      margin-left: 20px;
+    }
+  }
+  .pageturn-button-next{
+    cursor: pointer;
+    user-select: none;
+    padding: 10px; 
+    opacity: 50%;
+
+    &:hover {
+      opacity: 100%;
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    &.previous {
+      margin-right: 20px;
+    }
+
+    &.next {
+      margin-left: 20px;
+    }
+  }
+  .card-list{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-bottom: 60px;
+    background-color: $purpleblue;
+  }
+}
