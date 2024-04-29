@@ -73,6 +73,7 @@ const Main = ({ initialGames }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const pageCount = Math.ceil(mockGames.length / itemsPerPage);
 
+
   // Updates games whenever games state or currentPage state change
   useEffect(() => {
     setCurrentGames(
@@ -198,11 +199,33 @@ const Main = ({ initialGames }) => {
     fetchGames();
   }, [activePFilter, activeGFilter]); // Fetch games when filters change
 
+  const handleLikedGames = async (likedGame) => {
+    try {
+      const response = await fetch('/likegame', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, gameName })
+      });
+      const data = await response.json();
+      console.log(data); //delete after test
+
+      const updatedGames = currentGames.filter(game => game.id !== likedGame.id); //filter current games to remove liked game
+      const newGameResponse = await fetch('/games'); //fetch from game db?
+      const newGame = await newGameResponse.json();
+      updatedGames.push(newGame)
+      setCurrentGames(updatedGames);
+    } catch(error) {
+      console.error('Error like game', error)
+    }
+  }
   return (
     <div className="main">
       <Header />
       <CardList
         games={currentGames}
+        onLike={handleLikedGames}
         onPreviousClick={goToPreviousPage}
         onNextClick={goToNextPage}
         isPreviousDisabled={currentPage === 0}
