@@ -13,48 +13,49 @@ const Main = ({ initialGames, user }) => {
     {
       id: 1,
       title: 'Game 1',
-      platform: 'PC',
-      genre: 'Shooter',
-      summary: 'Valorant is bad.',
+      platforms: ['PC'],
+      genres: ['Shooter'],
+      summary:
+        'Valorant is bad. /n gjwopgqjaposdajgas;kgjdskla;gnrigjwroqig;jiwoqglkanzgfsjklgnagj;lsdfldsnnosngsoagosijgsiofalkslfjoawpgnrhiknjcnvcosapljrilajfreiajlnvjfksn;d',
       image: 'https://via.placeholder.com/150',
     },
     {
       id: 2,
       title: 'Game 2',
-      platform: 'PS5',
-      genre: 'Adventure',
+      platforms: ['PS5'],
+      genres: ['Adventure'],
       summary: 'Zelda is cool.',
       image: 'https://via.placeholder.com/150',
     },
     {
       id: 3,
       title: 'Game 3',
-      platform: 'PS4',
-      genre: 'Horror',
+      platforms: ['PS4'],
+      genres: ['Horror'],
       summary: 'Shaan the clown.',
       image: 'https://via.placeholder.com/150',
     },
     {
       id: 4,
       title: 'Game 4',
-      platform: 'XBOX',
-      genre: 'Comedy',
+      platforms: ['XBOX'],
+      genres: ['Comedy'],
       summary: 'Cyan is funny.',
       image: 'http://images.igdb.com/igdb/image/upload/t_thumb/co1ma0.jpg',
     },
     {
       id: 5,
       title: 'Game 5',
-      platform: 'XBOX',
-      genre: 'Comedy',
+      platforms: ['XBOX'],
+      genres: ['Comedy'],
       summary: 'Jay Cho is cool.',
       image: 'http://images.igdb.com/igdb/image/upload/t_thumb/co1ma0.jpg',
     },
     {
       id: 6,
       title: 'Game 6',
-      platform: 'XBOX',
-      genre: 'Comedy',
+      platforms: ['XBOX'],
+      genres: ['Comedy'],
       summary: 'Jay Lee is awesome.',
       image: 'http://images.igdb.com/igdb/image/upload/t_thumb/co1ma0.jpg',
     },
@@ -144,6 +145,11 @@ const Main = ({ initialGames, user }) => {
     });
   };
 
+  //testing filter
+  // useEffect(() => {
+  //   console.log(activePFilter);
+  // }, [activePFilter]);
+
   const handleGFilterSelect = selectedGenre => {
     setActiveGFilter(prevFilters => {
       // Check if we are starting from a state where all filters are active
@@ -198,7 +204,10 @@ const Main = ({ initialGames, user }) => {
         console.error('Error fetching the games:', error);
       }
     };
-    if (user !== '') fetchGames();
+    if (user !== '') {
+      console.log('user ready');
+      fetchGames();
+    }
   }, [activePFilter, activeGFilter]); // Fetch games when filters change
 
   const handleLikedGames = async likedGame => {
@@ -207,19 +216,19 @@ const Main = ({ initialGames, user }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ userName: user, gameName: likedGame }),
       });
       const data = await response.json();
       if (typeof data === 'object') {
         console.log('Unliked', data); //delete after test
-        const updatedGames = currentGames.filter(
-          game => game.name !== data.name
-        ); //filter current games to remove liked game
+        const updatedGames = games.filter(game => game.name !== data.name); //filter current games to remove liked game
         // const newGameResponse = await fetch('/games'); //fetch from game db?
         // const newGame = await newGameResponse.json();
         // updatedGames.push(newGame);
         setCurrentGames(updatedGames);
+        setGames(updatedGames);
       } else {
         console.log(data);
       }
