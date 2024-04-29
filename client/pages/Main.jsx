@@ -44,21 +44,17 @@ const Main = ({ user, initialData }) => {
     },
   ];
 
-  // fetching games from backend
-  const [games, setGames] = useState([initialData]);
-
   // Current page index, items per page, and page count
   //[Remember to replace mockGames to fetched data]
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 4;
   const pageCount = Math.ceil(mockGames.length / itemsPerPage);
 
-  // Current games to show
-  //[Remember to replace mockGames to fetched data]
-  const currentGames = mockGames.slice(
-    currentPage * itemsPerPage, //First item for the page
-    (currentPage + 1) * itemsPerPage //Last item for the page
-  );
+  // Updates games whenever games state or currentPage state change
+  useEffect(() => {
+    setCurrentGames(
+      games.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
+    );
+  }, [games, currentPage]);
 
   // Handlers for next and previous buttons
   const goToNextPage = () => {
@@ -96,6 +92,8 @@ const Main = ({ user, initialData }) => {
   const [activePFilter, setActivePFilter] = useState(platforms); // Platform filters
   const [activeGFilter, setActiveGFilter] = useState(genre); // Genre filters
 
+  //The filters start with all enabled and switch to a mode where only selected filters are active once a user starts interacting with them
+
   const handlePFilterSelect = selectedPlatform => {
     // Logic for set filter to be added
   };
@@ -107,16 +105,19 @@ const Main = ({ user, initialData }) => {
   useEffect(() => {
     const fetchGames = async () => {
       try {
-        const response = await fetch('http://localhost:3000/games', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            platforms: activePFilter,
-            genres: activeGFilter,
-          }),
-        });
+        const response = await fetch(
+          `http://localhost:3000/whatever branch LOL`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              platforms: activePFilter,
+              genres: activeGFilter,
+            }),
+          }
+        );
 
         if (!response.ok) {
           console.log('Backend data fetching issue with filter');
@@ -124,7 +125,7 @@ const Main = ({ user, initialData }) => {
 
         const gamesData = await response.json();
         // Update with the new games data
-        setGames(gamesData);
+        // setGames(gamesData);
       } catch (error) {
         console.error('Error fetching the games:', error);
       }
@@ -141,6 +142,7 @@ const Main = ({ user, initialData }) => {
         <div className="platform-filter">
           <PlatformFilter
             platforms={platforms}
+            activePFilter={activePFilter}
             onFilterSelect={handlePFilterSelect}
           />
         </div>
