@@ -7,7 +7,7 @@ import GenreFilter from '../components/GenreFilter.jsx';
 
 import '../stylesheets/Main.scss';
 
-const Main = ({ user, initialData }) => {
+const Main = () => {
   //-----------------------game cards--------------------------------
   const mockGames = [
     {
@@ -70,11 +70,12 @@ const Main = ({ user, initialData }) => {
     'PC (Microsoft Windows)',
     'Web browser',
     'Xbox 360',
+    //starting from here are all dummy variable since we didn't really get relevant data
     'Xbox One',
     'Xbox Series X|S',
     'PlayStation 5',
     'PlayStation 4',
-    'Nintendo Switch',
+    'Switch',
   ];
 
   const genre = [
@@ -82,11 +83,9 @@ const Main = ({ user, initialData }) => {
     'Indie',
     'MOBA',
     'Adventure',
+    //starting from here are all dummy variable since we didn't really get relevant data
     'RPG',
     'Strategy',
-    'Fighting',
-    'Puzzle',
-    'Sport',
   ];
 
   const [activePFilter, setActivePFilter] = useState(platforms); // Platform filters
@@ -118,6 +117,19 @@ const Main = ({ user, initialData }) => {
             }),
           }
         );
+        const response = await fetch(
+          `http://localhost:3000/whatever branch LOL`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              platforms: activePFilter,
+              genres: activeGFilter,
+            }),
+          }
+        );
 
         if (!response.ok) {
           console.log('Backend data fetching issue with filter');
@@ -125,6 +137,7 @@ const Main = ({ user, initialData }) => {
 
         const gamesData = await response.json();
         // Update with the new games data
+        // setGames(gamesData);
         // setGames(gamesData);
       } catch (error) {
         console.error('Error fetching the games:', error);

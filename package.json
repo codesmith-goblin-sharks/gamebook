@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon server/server.js",
     "build": "NODE_ENV=production webpack",
-    "dev": "cross-env NODE_ENV=development webpack serve --open"
+    "dev": "concurrently \"cross-env NODE_ENV=development webpack serve --open\" \"nodemon server/sever.js\""
   },
   "keywords": [],
   "author": "",
