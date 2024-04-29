@@ -13,48 +13,49 @@ const Main = ({ initialGames }) => {
     {
       id: 1,
       title: 'Game 1',
-      platform: 'PC',
-      genre: 'Shooter',
-      summary: 'Valorant is bad.',
+      platforms: ['PC'],
+      genres: ['Shooter'],
+      summary:
+        'Valorant is bad. /n gjwopgqjaposdajgas;kgjdskla;gnrigjwroqig;jiwoqglkanzgfsjklgnagj;lsdfldsnnosngsoagosijgsiofalkslfjoawpgnrhiknjcnvcosapljrilajfreiajlnvjfksn;d',
       image: 'https://via.placeholder.com/150',
     },
     {
       id: 2,
       title: 'Game 2',
-      platform: 'PS5',
-      genre: 'Adventure',
+      platforms: ['PS5'],
+      genres: ['Adventure'],
       summary: 'Zelda is cool.',
       image: 'https://via.placeholder.com/150',
     },
     {
       id: 3,
       title: 'Game 3',
-      platform: 'PS4',
-      genre: 'Horror',
+      platforms: ['PS4'],
+      genres: ['Horror'],
       summary: 'Shaan the clown.',
       image: 'https://via.placeholder.com/150',
     },
     {
       id: 4,
       title: 'Game 4',
-      platform: 'XBOX',
-      genre: 'Comedy',
+      platforms: ['XBOX'],
+      genres: ['Comedy'],
       summary: 'Cyan is funny.',
       image: 'http://images.igdb.com/igdb/image/upload/t_thumb/co1ma0.jpg',
     },
     {
       id: 5,
       title: 'Game 5',
-      platform: 'XBOX',
-      genre: 'Comedy',
+      platforms: ['XBOX'],
+      genres: ['Comedy'],
       summary: 'Jay Cho is cool.',
       image: 'http://images.igdb.com/igdb/image/upload/t_thumb/co1ma0.jpg',
     },
     {
       id: 6,
       title: 'Game 6',
-      platform: 'XBOX',
-      genre: 'Comedy',
+      platforms: ['XBOX'],
+      genres: ['Comedy'],
       summary: 'Jay Lee is awesome.',
       image: 'http://images.igdb.com/igdb/image/upload/t_thumb/co1ma0.jpg',
     },
@@ -71,8 +72,7 @@ const Main = ({ initialGames }) => {
   // Current page index, items per page, and page count
   //[Remember to replace mockGames to fetched data]
   const [currentPage, setCurrentPage] = useState(0);
-  const pageCount = Math.ceil(mockGames.length / itemsPerPage);
-
+  const pageCount = Math.ceil(games.length / itemsPerPage);
 
   // Updates games whenever games state or currentPage state change
   useEffect(() => {
@@ -83,11 +83,11 @@ const Main = ({ initialGames }) => {
 
   // Handlers for next and previous buttons
   const goToNextPage = () => {
-    setCurrentPage(prevPage => Math.min(prevPage + 1, pageCount - 1));
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, pageCount - 1));
   };
 
   const goToPreviousPage = () => {
-    setCurrentPage(prevPage => Math.max(prevPage - 1, 0));
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 0));
   };
 
   //-----------------------filters--------------------------------
@@ -114,60 +114,54 @@ const Main = ({ initialGames }) => {
     'Fighting',
   ];
 
-  const [activePFilter, setActivePFilter] = useState(platforms); // Platform filters
-  const [activeGFilter, setActiveGFilter] = useState(genre); // Genre filters
+  const [activePFilter, setActivePFilter] = useState([]); // Platform filters
+  const [activeGFilter, setActiveGFilter] = useState([]); // Genre filters
 
   //The filters start with all enabled and switch to a mode where only selected filters are active once a user starts interacting with them
 
-  const handlePFilterSelect = selectedPlatform => {
-    setActivePFilter(prevFilters => {
-      // Check if we are starting from a state where all filters are active
-      const allFiltersActive = prevFilters.length === platforms.length;
-
-      if (allFiltersActive) {
-        // If all filters are active and one is clicked, switch to only that filter
-        return [selectedPlatform];
+  const handlePFilterSelect = (selectedPlatform) => {
+    setActivePFilter((prevFilters) => {
+      // Check if the clicked filter is currently active
+      if (prevFilters.includes(selectedPlatform)) {
+        // If it is active, remove it
+        const filteredFilters = prevFilters.filter(
+          (pf) => pf !== selectedPlatform
+        );
+        // If removing this filter results in an empty list, keep it empty
+        return filteredFilters;
       } else {
-        // Check if the clicked filter is currently active
-        if (prevFilters.includes(selectedPlatform)) {
-          // If it is active, remove it
-          const filteredFilters = prevFilters.filter(
-            pf => pf !== selectedPlatform
-          );
-          // If removing this filter make it an empty list, reactivate all filters
-          return filteredFilters.length > 0 ? filteredFilters : platforms;
-        } else {
-          // If it is not active, add it
-          return [...prevFilters, selectedPlatform];
-        }
+        // If it is not active, add it to the existing filters
+        return [...prevFilters, selectedPlatform];
       }
     });
   };
 
-  const handleGFilterSelect = selectedGenre => {
-    setActiveGFilter(prevFilters => {
-      // Check if we are starting from a state where all filters are active
-      const allFiltersActive = prevFilters.length === genre.length;
+  //testing filter
+  // useEffect(() => {
+  //   console.log(activePFilter); 
+  // }, [activePFilter]); 
 
-      if (allFiltersActive) {
-        // If all filters are active and one is clicked, switch to only that filter
-        return [selectedGenre];
+  const handleGFilterSelect = (selectedGenre) => {
+    setActiveGFilter((prevFilters) => {
+      // Check if the clicked filter is currently active
+      if (prevFilters.includes(selectedGenre)) {
+        // If it is active, remove it
+        const filteredFilters = prevFilters.filter(
+          (pf) => pf !== selectedGenre
+        );
+        // If removing this filter results in an empty list, keep it empty
+        return filteredFilters;
       } else {
-        // Check if the clicked filter is currently active
-        if (prevFilters.includes(selectedGenre)) {
-          // If it is active, remove it
-          const filteredFilters = prevFilters.filter(
-            pf => pf !== selectedGenre
-          );
-          // If removing this filter make it an empty list, reactivate all filters
-          return filteredFilters.length > 0 ? filteredFilters : genre;
-        } else {
-          // If it is not active, add it
-          return [...prevFilters, selectedGenre];
-        }
+        // If it is not active, add it to the existing filters
+        return [...prevFilters, selectedGenre];
       }
     });
   };
+
+  // testing filter
+  // useEffect(() => {
+  //   console.log(activeGFilter); 
+  // }, [activeGFilter]); 
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -204,24 +198,26 @@ const Main = ({ initialGames }) => {
       const response = await fetch('/likegame', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, gameName })
+        body: JSON.stringify({ username, gameName }),
       });
       const data = await response.json();
       console.log(data); //delete after test
 
-      const updatedGames = currentGames.filter(game => game.id !== likedGame.id); //filter current games to remove liked game
+      const updatedGames = currentGames.filter(
+        (game) => game.id !== likedGame.id
+      ); //filter current games to remove liked game
       const newGameResponse = await fetch('/games'); //fetch from game db?
       const newGame = await newGameResponse.json();
-      updatedGames.push(newGame)
+      updatedGames.push(newGame);
       setCurrentGames(updatedGames);
-    } catch(error) {
-      console.error('Error like game', error)
+    } catch (error) {
+      console.error('Error like game', error);
     }
-  }
+  };
   return (
-    <div className="main">
+    <div className='main'>
       <Header />
       <CardList
         games={currentGames}
@@ -231,15 +227,15 @@ const Main = ({ initialGames }) => {
         isPreviousDisabled={currentPage === 0}
         isNextDisabled={currentPage === pageCount - 1}
       />
-      <div className="filters">
-        <div className="platform-filter">
+      <div className='filters'>
+        <div className='platform-filter'>
           <PlatformFilter
             platforms={platforms}
             activePFilter={activePFilter}
             onFilterSelect={handlePFilterSelect}
           />
         </div>
-        <div className="genre-filter">
+        <div className='genre-filter'>
           <GenreFilter
             genre={genre}
             activeGFilter={activeGFilter}

@@ -43,8 +43,9 @@
 
     .card-summary {
       margin: 0;
-      margin-bottom: 16px;
+      margin-bottom: 10px;
       font-size: 14px; 
+      overflow-y: auto;
     }
 
     .card-button {
