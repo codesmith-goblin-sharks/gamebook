@@ -7,7 +7,7 @@ import GenreFilter from '../components/GenreFilter.jsx';
 
 import '../stylesheets/Main.scss';
 
-const Main = () => {
+const Main = ({ initialGames }) => {
   //-----------------------game cards--------------------------------
   const mockGames = [
     {
@@ -60,35 +60,34 @@ const Main = () => {
     },
   ];
 
+  const itemsPerPage = 4;
+  // Game states
+  const [games, setGames] = useState(initialGames); // Will be updated with the data from backend
+  const [currentGames, setCurrentGames] = useState(
+    // Game to display on one page
+    games.slice(0, itemsPerPage) // Start with the first page
+  );
+
   // Current page index, items per page, and page count
   //[Remember to replace mockGames to fetched data]
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 4;
   const pageCount = Math.ceil(mockGames.length / itemsPerPage);
 
-  // Current games to show
-  //[Remember to replace mockGames to fetched data]
-  // const currentGames = mockGames.slice(
-  //   currentPage * itemsPerPage, //First item for the page
-  //   (currentPage + 1) * itemsPerPage //Last item for the page
-  // );
 
-  const [currentGames, setCurrentGames] = useState(games.slice(0, itemsPerPage));
-
+  // Updates games whenever games state or currentPage state change
   useEffect(() => {
-    setCurrentGames(games.slice(
-      currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage
-    ));
-  }, [currentPage, games]);
-  //update currentGame when game or currentPage changes
+    setCurrentGames(
+      games.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
+    );
+  }, [games, currentPage]);
 
   // Handlers for next and previous buttons
   const goToNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, pageCount - 1));
+    setCurrentPage(prevPage => Math.min(prevPage + 1, pageCount - 1));
   };
 
   const goToPreviousPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 0));
+    setCurrentPage(prevPage => Math.max(prevPage - 1, 0));
   };
 
   //-----------------------filters--------------------------------
@@ -96,12 +95,11 @@ const Main = () => {
     'PC (Microsoft Windows)',
     'Web browser',
     'Xbox 360',
-    //starting from here are all dummy variable since we didn't really get relevant data
     'Xbox One',
     'Xbox Series X|S',
     'PlayStation 5',
     'PlayStation 4',
-    'Switch',
+    'Nintendo Switch',
   ];
 
   const genre = [
@@ -109,38 +107,81 @@ const Main = () => {
     'Indie',
     'MOBA',
     'Adventure',
-    //starting from here are all dummy variable since we didn't really get relevant data
     'RPG',
     'Strategy',
+    'Sport',
+    'Puzzle',
+    'Fighting',
   ];
 
   const [activePFilter, setActivePFilter] = useState(platforms); // Platform filters
   const [activeGFilter, setActiveGFilter] = useState(genre); // Genre filters
 
-  const handlePFilterSelect = (selectedPlatform) => {
-    // Logic for set filter to be added
+  //The filters start with all enabled and switch to a mode where only selected filters are active once a user starts interacting with them
+
+  const handlePFilterSelect = selectedPlatform => {
+    setActivePFilter(prevFilters => {
+      // Check if we are starting from a state where all filters are active
+      const allFiltersActive = prevFilters.length === platforms.length;
+
+      if (allFiltersActive) {
+        // If all filters are active and one is clicked, switch to only that filter
+        return [selectedPlatform];
+      } else {
+        // Check if the clicked filter is currently active
+        if (prevFilters.includes(selectedPlatform)) {
+          // If it is active, remove it
+          const filteredFilters = prevFilters.filter(
+            pf => pf !== selectedPlatform
+          );
+          // If removing this filter make it an empty list, reactivate all filters
+          return filteredFilters.length > 0 ? filteredFilters : platforms;
+        } else {
+          // If it is not active, add it
+          return [...prevFilters, selectedPlatform];
+        }
+      }
+    });
   };
 
-  const handleGFilterSelect = (selectedGenre) => {
-    // Logic for set filter to be added
+  const handleGFilterSelect = selectedGenre => {
+    setActiveGFilter(prevFilters => {
+      // Check if we are starting from a state where all filters are active
+      const allFiltersActive = prevFilters.length === genre.length;
+
+      if (allFiltersActive) {
+        // If all filters are active and one is clicked, switch to only that filter
+        return [selectedGenre];
+      } else {
+        // Check if the clicked filter is currently active
+        if (prevFilters.includes(selectedGenre)) {
+          // If it is active, remove it
+          const filteredFilters = prevFilters.filter(
+            pf => pf !== selectedGenre
+          );
+          // If removing this filter make it an empty list, reactivate all filters
+          return filteredFilters.length > 0 ? filteredFilters : genre;
+        } else {
+          // If it is not active, add it
+          return [...prevFilters, selectedGenre];
+        }
+      }
+    });
   };
 
   useEffect(() => {
     const fetchGames = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:3000/whatever branch LOL`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              platforms: activePFilter,
-              genres: activeGFilter,
-            }),
-          }
-        );
+        const response = await fetch(`http://localhost:3000/games`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            platforms: activePFilter,
+            genres: activeGFilter,
+          }),
+        });
 
         if (!response.ok) {
           console.log('Backend data fetching issue with filter');
@@ -148,7 +189,8 @@ const Main = () => {
 
         const gamesData = await response.json();
         // Update with the new games data
-        // setGames(gamesData);
+        setGames(gamesData);
+        setCurrentPage(0); //Page rest
       } catch (error) {
         console.error('Error fetching the games:', error);
       }
@@ -179,7 +221,7 @@ const Main = () => {
     }
   }
   return (
-    <div className='main'>
+    <div className="main">
       <Header />
       <CardList
         games={currentGames}
@@ -189,15 +231,20 @@ const Main = () => {
         isPreviousDisabled={currentPage === 0}
         isNextDisabled={currentPage === pageCount - 1}
       />
-      <div className='filters'>
-        <div className='platform-filter'>
+      <div className="filters">
+        <div className="platform-filter">
           <PlatformFilter
             platforms={platforms}
+            activePFilter={activePFilter}
             onFilterSelect={handlePFilterSelect}
           />
         </div>
-        <div className='genre-filter'>
-          <GenreFilter genre={genre} onFilterSelect={handleGFilterSelect} />
+        <div className="genre-filter">
+          <GenreFilter
+            genre={genre}
+            activeGFilter={activeGFilter}
+            onFilterSelect={handleGFilterSelect}
+          />
         </div>
       </div>
     </div>
