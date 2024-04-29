@@ -7,7 +7,7 @@ import GenreFilter from '../components/GenreFilter.jsx';
 
 import '../stylesheets/Main.scss';
 
-const Main = ({ initialGames }) => {
+const Main = ({ initialGames, user }) => {
   //-----------------------game cards--------------------------------
   const mockGames = [
     {
@@ -65,14 +65,14 @@ const Main = ({ initialGames }) => {
   const [games, setGames] = useState(initialGames); // Will be updated with the data from backend
   const [currentGames, setCurrentGames] = useState(
     // Game to display on one page
-    games.slice(0, itemsPerPage) // Start with the first page
+    // games.slice(0, itemsPerPage) // Start with the first page
+    []
   );
-
+  console.log('games', games);
   // Current page index, items per page, and page count
   //[Remember to replace mockGames to fetched data]
   const [currentPage, setCurrentPage] = useState(0);
-  const pageCount = Math.ceil(mockGames.length / itemsPerPage);
-
+  const pageCount = Math.ceil(games.length / itemsPerPage);
 
   // Updates games whenever games state or currentPage state change
   useEffect(() => {
@@ -178,6 +178,7 @@ const Main = ({ initialGames }) => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
+            username: user,
             platforms: activePFilter,
             genres: activeGFilter,
           }),
@@ -189,37 +190,43 @@ const Main = ({ initialGames }) => {
 
         const gamesData = await response.json();
         // Update with the new games data
+        console.log('gamesData', gamesData);
+        console.log(Array.isArray(gamesData));
         setGames(gamesData);
         setCurrentPage(0); //Page rest
       } catch (error) {
         console.error('Error fetching the games:', error);
       }
     };
-
-    fetchGames();
+    if (user !== '') fetchGames();
   }, [activePFilter, activeGFilter]); // Fetch games when filters change
 
-  const handleLikedGames = async (likedGame) => {
+  const handleLikedGames = async likedGame => {
     try {
-      const response = await fetch('/likegame', {
+      const response = await fetch('http://localhost:3000/likegame', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, gameName })
+        body: JSON.stringify({ userName: user, gameName: likedGame }),
       });
       const data = await response.json();
-      console.log(data); //delete after test
-
-      const updatedGames = currentGames.filter(game => game.id !== likedGame.id); //filter current games to remove liked game
-      const newGameResponse = await fetch('/games'); //fetch from game db?
-      const newGame = await newGameResponse.json();
-      updatedGames.push(newGame)
-      setCurrentGames(updatedGames);
-    } catch(error) {
-      console.error('Error like game', error)
+      if (typeof data === 'object') {
+        console.log('Unliked', data); //delete after test
+        const updatedGames = currentGames.filter(
+          game => game.name !== data.name
+        ); //filter current games to remove liked game
+        // const newGameResponse = await fetch('/games'); //fetch from game db?
+        // const newGame = await newGameResponse.json();
+        // updatedGames.push(newGame);
+        setCurrentGames(updatedGames);
+      } else {
+        console.log(data);
+      }
+    } catch (error) {
+      console.error('Error like game', error);
     }
-  }
+  };
   return (
     <div className="main">
       <Header />

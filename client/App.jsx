@@ -13,6 +13,7 @@ import ProtectedRoute from './components/ProtectedRoute.jsx';
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [initialGames, setInitialGames] = useState([]);
+  const [user, setUser] = useState('');
   return (
     <BrowserRouter>
       <Routes>
@@ -22,6 +23,7 @@ const App = () => {
             <LoginPage
               setIsAuthenticated={setIsAuthenticated}
               setInitialGames={setInitialGames}
+              setUser={setUser}
             />
           }
         />
@@ -31,7 +33,7 @@ const App = () => {
           path="/home"
           element={
             <ProtectedRoute isAuthenticated={isAuthenticated}>
-              <MainPage initialGames={initialGames} />
+              <MainPage initialGames={initialGames} user={user} />
             </ProtectedRoute>
           }
         />

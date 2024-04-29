@@ -28,9 +28,9 @@ const CardList = ({
           <path d="M0 42.5L30 0.497772L30 84.5022L0 42.5Z" fill="#D9D9D9" />
         </svg>
       </div>
-      <div className='card-list'>
-        {games.map((game) => (
-          <Card key={game.id} game={game} onLike={() => onLike(game.id)} />
+      <div className="card-list">
+        {games.map(game => (
+          <Card key={game.id} game={game} onLike={() => onLike(game.name)} />
         ))}
       </div>
 
