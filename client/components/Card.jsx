@@ -15,27 +15,6 @@ const Card = ({ game, onLike }) => {
         <button className='card-button' onClick={onLike}>Like</button>
       </div>
     </div>
-
-
-    // <div className="cardContext">
-    //   <div className="stackedCard">
-    //     <img
-    //       src={game.image}
-    //       alt={game.title}
-    //       className="cardImage"
-    //     />
-    //     <div className="textContent">
-    //       <div className="cardTitle">{game.title}</div>
-    //       <div className="cardSubTitle">{game.platform} | {game.genre}</div>
-    //       <div className="cardSummary">{game.summary}</div>
-    //     </div>
-    //     <div className="likeBox">
-    //       <button className="cardLike" onClick={onLike}>
-    //         Like
-    //       </button>
-    //     </div>
-    //   </div>
-    // </div>
   );
 };
 

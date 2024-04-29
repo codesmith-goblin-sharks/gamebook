@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import Header from '../components/Header.jsx';
+
+import { useNavigate } from 'react-router-dom';
+import '../stylesheets/Login.scss';
 import '../stylesheets/Signup.scss'
+
 
 const SignupPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
 
   const navigate = useNavigate();
 
@@ -12,8 +18,10 @@ const SignupPage = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     // [Not Done yet] backend signup engagement here
+    setError('');
     try {
-      const response = await fetch(`http://localhost:3000/signup`, {
+      const response = await fetch(`http://localhost:3000/createuser`, {
+
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -23,13 +31,14 @@ const SignupPage = () => {
 
       const data = await response.json();
 
-      if (response.ok && data === true) {
-        navigate('/home');
+      if (response.ok && data) {
+        navigate('/login');
       } else {
-        navigate('/signup'); //Let's do it these way for now... I haven't figure out how to render a error message
+        console.log(response)
+        setError('Username already exists') 
       }
     } catch (err) {
-      console.log('Error with sign up', err);
+      setError('Invalid username or password');
     }
   };
 
@@ -46,6 +55,7 @@ const SignupPage = () => {
     <div className='sign-up'>
       <Header />
       <form onSubmit={handleSignup}>
+        {error && <div className='error-message'>{error}</div>} {/* Display error message but maybe change to <p> */}
         <div className='input-field'>
           <label htmlFor='username'>Username</label>
           <input
@@ -71,5 +81,6 @@ const SignupPage = () => {
     </div>
   );
 }
+
 
 export default SignupPage;
