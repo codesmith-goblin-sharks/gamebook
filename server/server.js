@@ -27,10 +27,15 @@ app.post('/apisave', gamesController.apiSave, (req, res) => {
 });
 
 // route for handling post request from frontend to filter games
-app.post('/games', gamesController.getGames, (req, res) => {
-  // returns array of objects of games
-  res.status(200).json(res.locals.games);
-});
+app.post(
+  '/games',
+  gamesController.getGames,
+  gamesController.gameFilter,
+  (req, res) => {
+    // returns array of objects of games
+    res.status(200).json(res.locals.filteredGames);
+  }
+);
 
 // route for handling post request for liked games
 app.post('/likegame', usersController.likeGame, (req, res) => {

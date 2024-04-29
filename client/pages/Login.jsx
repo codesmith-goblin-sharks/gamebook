@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import '../stylesheets/Login.scss';
 
-const LoginPage = ({ setIsAuthenticated, setInitialGames }) => {
+const LoginPage = ({ setIsAuthenticated, setInitialGames, setUser }) => {
   //State hooks for username and password
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -31,6 +31,7 @@ const LoginPage = ({ setIsAuthenticated, setInitialGames }) => {
 
       if (response.ok && data) {
         setIsAuthenticated(true);
+        setUser(data);
         navigate('/home');
       } else {
         setError('Incorrect username or password');
@@ -80,6 +81,7 @@ const LoginPage = ({ setIsAuthenticated, setInitialGames }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          username: username,
           platforms: platforms,
           genres: genres,
         }),

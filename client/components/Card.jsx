@@ -21,6 +21,8 @@ const Card = ({ game, onLike }) => {
           {platforms} | {genres}
         </p>
         <p className="card-summary">{game.summary}</p>
+      </div>
+      <div className="like-button">
         <button className="card-button" onClick={onLike}>
           Like
         </button>
