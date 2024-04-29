@@ -42,6 +42,22 @@ const Main = () => {
       summary: 'Cyan is funny.',
       image: 'http://images.igdb.com/igdb/image/upload/t_thumb/co1ma0.jpg',
     },
+    {
+      id: 5,
+      title: 'Game 5',
+      platform: 'XBOX',
+      genre: 'Comedy',
+      summary: 'Jay Cho is cool.',
+      image: 'http://images.igdb.com/igdb/image/upload/t_thumb/co1ma0.jpg',
+    },
+    {
+      id: 6,
+      title: 'Game 6',
+      platform: 'XBOX',
+      genre: 'Comedy',
+      summary: 'Jay Lee is awesome.',
+      image: 'http://images.igdb.com/igdb/image/upload/t_thumb/co1ma0.jpg',
+    },
   ];
 
   // Current page index, items per page, and page count
@@ -135,7 +151,13 @@ const Main = () => {
   return (
     <div className='main'>
       <Header />
-        <CardList games={mockGames} />
+      <CardList
+        games={currentGames}
+        onPreviousClick={goToPreviousPage}
+        onNextClick={goToNextPage}
+        isPreviousDisabled={currentPage === 0}
+        isNextDisabled={currentPage === pageCount - 1}
+      />
       <div className='filters'>
         <div className='platform-filter'>
           <PlatformFilter
