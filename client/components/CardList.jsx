@@ -5,6 +5,7 @@ import '../stylesheets/CardList.scss';
 
 const CardList = ({
   games,
+  onLike,
   onPreviousClick,
   onNextClick,
   isPreviousDisabled,
@@ -22,7 +23,7 @@ const CardList = ({
 
       <div className='card-list'>
         {games.map((game) => (
-          <Card key={game.id} game={game} />
+          <Card key={game.id} game={game} onLike={() => onLike(game.id)} />
         ))}
       </div>
 
