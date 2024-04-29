@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import Header from '../components/Header.jsx';
+
 import { useNavigate } from 'react-router-dom';
 import '../stylesheets/Login.scss';
+import '../stylesheets/Signup.scss'
+
 
 const SignupPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
 
   const navigate = useNavigate();
 
@@ -17,6 +21,7 @@ const SignupPage = () => {
     setError('');
     try {
       const response = await fetch(`http://localhost:3000/createuser`, {
+
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -25,8 +30,6 @@ const SignupPage = () => {
       }); // check with the backend
 
       const data = await response.json();
-
-      console.log('data:', data)
 
       if (response.ok && data) {
         navigate('/login');
@@ -78,5 +81,6 @@ const SignupPage = () => {
     </div>
   );
 }
+
 
 export default SignupPage;
