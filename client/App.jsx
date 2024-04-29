@@ -17,6 +17,7 @@ const App = () => {
       <Routes>
         <Route path='/login' element={<LoginPage setIsAuthenticated={setIsAuthenticated} />} />
         <Route path='/signup' element={<SignupPage />} />
+        <Route path='/' element={<MainPage />} />
         <Route
           path='/home'
           element={
@@ -25,7 +26,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route path='/' element={<Navigate replace to='/login' />} />
+        {/* <Route path='/' element={<Navigate replace to='/login' />} /> */}
       </Routes>
     </BrowserRouter>
   );

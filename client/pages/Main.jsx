@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header.jsx';
 
+import CardList from '../components/CardList.jsx'
 import PlatformFilter from '../components/PlatformFilter.jsx';
 import GenreFilter from '../components/GenreFilter.jsx';
 
 import '../stylesheets/Main.scss';
 
 const Main = () => {
+    const mockGames = [
+    { id: 1, title: 'Game 1', platform: 'PC', genre: 'Shooter', summary: 'Valorant is bad.', image: 'https://via.placeholder.com/150' },
+    { id: 2, title: 'Game 2', platform: 'PS5', genre: 'Adventure', summary: 'Zelda is cool.', image: 'https://via.placeholder.com/150' },
+    { id: 3, title: 'Game 3', platform: 'PS4', genre: 'Horror', summary: 'Shaan the clown.', image: 'https://via.placeholder.com/150' },
+    { id: 4, title: 'Game 4', platform: 'XBOX', genre: 'Comedy', summary: 'Cyan is funny.', image: 'http://images.igdb.com/igdb/image/upload/t_thumb/co1ma0.jpg'},
+  ];
   const platforms = [
     'PC (Microsoft Windows)',
     'Web browser',
@@ -29,7 +36,7 @@ const Main = () => {
     'Strategy',
   ];
 
-  const [activePFilter, setActivePFilter] = useState(platform); // Platform filters
+  const [activePFilter, setActivePFilter] = useState(platforms); // Platform filters
   const [activeGFilter, setActiveGFilter] = useState(genre); // Genre filters
 
   const handlePFilterSelect = (selectedPlatform) => {
@@ -72,7 +79,7 @@ const Main = () => {
   return (
     <div className='main'>
       <Header />
-      {/* {CardList here} */}
+      <CardList games={mockGames}/>
       <div className='filters'>
         <div className='platform-filter'>
           <PlatformFilter
